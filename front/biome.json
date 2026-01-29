@@ -1,4 +1,30 @@
 {
-   "root": false,
-   "extends": ["../biome.json"]
+	"$schema": "../node_modules/@biomejs/biome/configuration_schema.json",
+	"extends": ["../biome.json"],
+	"linter": {
+		"rules": {
+			"correctness": {
+				"useExhaustiveDependencies": "warn"
+			},
+			"style": {
+				"useImportType": "off"
+			},
+			"nursery": {
+				"useSortedClasses": "warn"
+			}
+		}
+	},
+	"css": {
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "tab",
+			"indentWidth": 4
+		},
+		"linter": {
+			"enabled": true
+		},
+		"parser": {
+			"cssModules": true
+		}
+	}
 }

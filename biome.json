@@ -1,5 +1,17 @@
 {
 	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
+	},
+	"assist": {
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
@@ -9,43 +21,19 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-			"nursery": {
-				"useSortedClasses": "warn"
-			},
 			"correctness": {
 				"noUnusedImports": "warn",
-				"noUnusedVariables": "warn",
-				"useExhaustiveDependencies": "warn"
+				"noUnusedVariables": "warn"
 			},
 			"style": {
-				"useNodejsImportProtocol": "off",
 				"noInferrableTypes": "off",
 				"noNonNullAssertion": "off",
-				"useEnumInitializers": "off",
-				"useImportType": "off"
+				"useEnumInitializers": "off"
 			},
 			"suspicious": {
 				"noExplicitAny": "off"
 			}
 		}
-	},
-	"css": {
-		"formatter": {
-			"enabled": true,
-			"indentStyle": "tab",
-			"indentWidth": 4
-		},
-		"linter": {
-			"enabled": true
-		},
-		"parser": {
-			"cssModules": true
-		}
-	},
-	"vcs": {
-		"enabled": true,
-		"clientKind": "git",
-		"useIgnoreFile": true
 	},
 	"json": {
 		"formatter": {
@@ -55,6 +43,13 @@
 		},
 		"linter": {
 			"enabled": true
+		}
+	},
+	"html": {
+		"formatter": {
+			"enabled": true,
+			"indentStyle": "tab",
+			"indentWidth": 4
 		}
 	}
 }
