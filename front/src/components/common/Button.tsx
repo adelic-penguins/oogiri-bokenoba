@@ -1,69 +1,96 @@
 import { styled } from "@mui/system";
-import React, { type ReactNode } from "react";
+import type { ReactNode } from "react";
+
+type ButtonType = "primary" | "secondary";
+type ButtonSize = "lg" | "md";
 
 type Props = {
-	buttonType: "primary" | "secondary" | "tertiary";
-	buttonSize: "sm" | "md" | "lg";
-	buttonColor?: string;
+	type: ButtonType;
+	size: ButtonSize;
+	children: ReactNode;
 	className?: string;
 	disabled?: boolean;
 	onClick?: () => void;
-	children: ReactNode;
 };
 
-const Button: React.FC<Props> = ({
-	buttonType,
-	buttonSize,
-	buttonColor,
-	disabled = false,
-	onClick,
+const Button = ({
+	type,
+	size,
 	children,
 	className,
-}) => {
+	disabled = false,
+	onClick,
+}: Props) => {
 	return (
 		<Root
-			buttonType={buttonType}
-			buttonSize={buttonSize}
-			buttonColor={buttonColor}
+			buttonType={type}
+			buttonSize={size}
+			className={className}
 			disabled={disabled}
 			onClick={onClick}
-			className={className}
 		>
-			{children}
+			<Inner>
+				<Content buttonSize={size}>
+					<Text buttonType={type} buttonSize={size}>
+						{children}
+					</Text>
+				</Content>
+			</Inner>
 		</Root>
 	);
 };
+
 export default Button;
 
-const Root = styled("button")<{
-	buttonType: Props["buttonType"];
-	buttonSize: Props["buttonSize"];
-	buttonColor: Props["buttonColor"];
-	disabled: boolean;
-}>(({ buttonType, buttonSize, buttonColor, disabled }) => ({
+const Root = styled("button", {
+	shouldForwardProp: (prop) => prop !== "buttonType" && prop !== "buttonSize",
+})<{ buttonType: ButtonType; buttonSize: ButtonSize; disabled: boolean }>(
+	({ buttonType, buttonSize, disabled }) => ({
+		width: "100%",
+		height: buttonSize === "lg" ? 48 : "auto",
+		padding: 0,
+		border: "none",
+		borderRadius: buttonSize === "lg" ? 16 : 8,
+		backgroundColor: buttonType === "primary" ? "#f87149" : "#ece7dd",
+		cursor: disabled ? "not-allowed" : "pointer",
+		opacity: disabled ? 0.5 : 1,
+		transition: "opacity 0.2s ease-in-out",
+		"&:hover": {
+			opacity: disabled ? 0.5 : 0.8,
+		},
+	}),
+);
+
+const Inner = styled("div")({
+	display: "flex",
+	flexDirection: "row",
 	alignItems: "center",
-	cursor: disabled ? "none" : "pointer",
-	opacity: disabled ? 0.5 : 1,
-	padding:
-		buttonSize === "sm"
-			? "8px 12px"
-			: buttonSize === "md"
-				? "12px 16px"
-				: "16px 24px",
-	fontSize:
-		buttonSize === "sm" ? "16px" : buttonSize === "md" ? "24px" : "32px",
-	border: "none",
-	borderRadius: "4px",
-	backgroundColor: buttonColor
-		? buttonColor
-		: buttonType === "primary"
-			? "#0070f3"
-			: buttonType === "secondary"
-				? "#e2e8f0"
-				: "transparent",
-	color: "#fff",
-	transition: "all 0.2s ease-in-out",
-	"&:hover": {
-		opacity: disabled ? 0.5 : 0.8,
-	},
+	justifyContent: "center",
+	overflow: "clip",
+	borderRadius: "inherit",
+	width: "100%",
+	height: "100%",
+});
+
+const Content = styled("div", {
+	shouldForwardProp: (prop) => prop !== "buttonSize",
+})<{ buttonSize: ButtonSize }>(({ buttonSize }) => ({
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	width: "100%",
+	height: "100%",
+	padding: buttonSize === "lg" ? "10px 16px" : "8px 16px",
 }));
+
+const Text = styled("span", {
+	shouldForwardProp: (prop) => prop !== "buttonType" && prop !== "buttonSize",
+})<{ buttonType: ButtonType; buttonSize: ButtonSize }>(
+	({ buttonType, buttonSize }) => ({
+		fontFamily: "'Noto Sans JP', sans-serif",
+		fontWeight: 600,
+		fontSize: buttonSize === "lg" ? 20 : 16,
+		lineHeight: "normal",
+		color: buttonType === "primary" ? "#ffffff" : "#59250a",
+	}),
+);
